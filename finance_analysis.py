@@ -3,6 +3,7 @@ import requests
 import matplotlib.pyplot as plt
 import pandas as pd
 from bs4 import BeautifulSoup
+from io import StringIO
 
 # Step 1: Scrape URL - Soup, Requests
 # Step 2: Clean Data - Numpy, Pandas
@@ -44,13 +45,33 @@ else:
     # If the HTTP request was not successful, print the status code
     print(f"Failed to retrieve the content. Status code: {page.status_code}")
 
-# Convert BeautifulSoup Object into a string and read it into Dataframe (df)
-df = pd.read_html(str(table))[0]
+# Assume 'table' contains the HTML of the table as a string
+html_content = str(tables)
 
-# Print the Dataframe
-print(df.head())
+# Convert the HTML string to a StringIO object
+html_io = StringIO(str(tables[0]))
+
+# Read the HTML content with pandas, treating the StringIO object like a file
+df = pd.read_html(html_io)[0]
+
+# Remove Empty Rows
+cleaned_df = df.dropna(how='all')
+
+# Removing Rows Based on Index
+cleaned_df.drop(5, inplace=True)
+                               
 
 
 
-    
+
+
+
+
+# Save Dataframe as CSV
+cleaned_df.to_csv('appl_income_02.csv', index=False)
+
+# Print head of Dataframe
+print(cleaned_df.head(10))
+
+
 
