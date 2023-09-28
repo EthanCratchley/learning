@@ -57,16 +57,6 @@ df = pd.read_html(html_io)[0]
 # Remove Empty Rows
 cleaned_df = df.dropna(how='all')
 
-# Removing Rows Based on Index
-cleaned_df.drop(5, inplace=True)
-                               
-
-
-
-
-
-
-
 # Save Dataframe as CSV
 cleaned_df.to_csv('appl_income_02.csv', index=False)
 
